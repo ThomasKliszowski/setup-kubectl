@@ -1,0 +1,44 @@
+name: Test
+
+on:
+  push:
+    branches: main
+  pull_request:
+    branches: main
+  repository_dispatch:
+  workflow_dispatch:
+
+jobs:
+  integration_test_version_success:
+    name: "Integration test: specific version"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        with:
+          kube-version: 1.15.0
+          kube-config: YXBpVmVyc2lvbjogdjEKY2x1c3RlcnM6Ci0gY2x1c3RlcjoKICAgIGNlcnRpZmljYXRlLWF1dGhvcml0eS1kYXRhOiBZMlZ5ZEdsbWFXTmhkR1V0WVhWMGFHOXlhWFI1TFdSaGRHRT0KICAgIHNlcnZlcjogaHR0cHM6Ly9zZXJ2ZXIuZ29vZ2xlLmNvbQogIG5hbWU6IG15LWNsdXN0ZXIKY29udGV4dHM6Ci0gY29udGV4dDoKICAgIGNsdXN0ZXI6IG15LWNsdXN0ZXIKICAgIG5hbWVzcGFjZTogZGVmYXVsdAogICAgdXNlcjogbXktdXNlcgogIG5hbWU6IG15LWNvbnRleHQKY3VycmVudC1jb250ZXh0OiBteS1jb250ZXh0CmtpbmQ6IENvbmZpZwpwcmVmZXJlbmNlczoge30KdXNlcnM6Ci0gbmFtZTogbXktdXNlcgogIHVzZXI6CiAgICB0b2tlbjogdXNlci10b2tlbgo=
+      - name: Ensure kubectl version is 1.15.0
+        run: kubectl version --client --short | grep "1.15.0"
+  integration_test_latest_success:
+    name: "Integration test: latest version"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        with:
+          kube-config: YXBpVmVyc2lvbjogdjEKY2x1c3RlcnM6Ci0gY2x1c3RlcjoKICAgIGNlcnRpZmljYXRlLWF1dGhvcml0eS1kYXRhOiBZMlZ5ZEdsbWFXTmhkR1V0WVhWMGFHOXlhWFI1TFdSaGRHRT0KICAgIHNlcnZlcjogaHR0cHM6Ly9zZXJ2ZXIuZ29vZ2xlLmNvbQogIG5hbWU6IG15LWNsdXN0ZXIKY29udGV4dHM6Ci0gY29udGV4dDoKICAgIGNsdXN0ZXI6IG15LWNsdXN0ZXIKICAgIG5hbWVzcGFjZTogZGVmYXVsdAogICAgdXNlcjogbXktdXNlcgogIG5hbWU6IG15LWNvbnRleHQKY3VycmVudC1jb250ZXh0OiBteS1jb250ZXh0CmtpbmQ6IENvbmZpZwpwcmVmZXJlbmNlczoge30KdXNlcnM6Ci0gbmFtZTogbXktdXNlcgogIHVzZXI6CiAgICB0b2tlbjogdXNlci10b2tlbgo=
+      - name: Ensure kubectl works
+        run: kubectl version --client --short
+  integration_test_no_config_fail:
+    name: "Integration test: no config"
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        continue-on-error: true
+        with:
+          kube-version: 1.15.0
+      - name: Ensure setup-kubectl fails
+        run: (kubectl version --client --short | grep "1.15.0" || echo "failed") | grep "failed"

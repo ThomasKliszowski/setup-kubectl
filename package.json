@@ -1,0 +1,41 @@
+{
+  "name": "setup-kubectl",
+  "version": "1.0.0",
+  "private": true,
+  "description": "setup kubectl action",
+  "main": "lib/setup-kubectl.js",
+  "scripts": {
+    "build": "tsc && ncc build",
+    "format": "prettier --write **/*.ts",
+    "format-check": "prettier --check **/*.ts",
+    "test": "jest",
+    "pre-checkin": "npm run format && npm run build && npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ThomasKliszowski/setup-kubectl.git"
+  },
+  "keywords": [
+    "actions",
+    "node",
+    "setup"
+  ],
+  "author": "GitHub",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.2.6",
+    "@actions/github": "^4.0.0",
+    "@actions/exec": "^1.0.3",
+    "@actions/http-client": "^1.0.6",
+    "@actions/io": "^1.0.2",
+    "@actions/tool-cache": "^1.5.4",
+    "semver": "^7.3.4"
+  },
+  "devDependencies": {
+    "@types/node": "^12.20.0",
+    "@types/semver": "^7.3.4",
+    "@zeit/ncc": "^0.22.3",
+    "prettier": "^2.2.1",
+    "typescript": "^4.2.2"
+  }
+}
