@@ -8,7 +8,7 @@ inputs:
   kube-version:
     description: Kube version used to download kubectl executable, defaults to latest
 runs:
-  using: node12
+  using: node16
   main: dist/index.js
 branding:
   color: blue
